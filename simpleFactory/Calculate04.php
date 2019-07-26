@@ -10,7 +10,7 @@ namespace calculate;
 
 use mysql_xdevapi\Exception;
 
-class Calculate03
+class Calculate04
 {
     public $firstParam;
     public $nextParam;
@@ -30,23 +30,7 @@ class CalculateView
 
         $operator = trim(fgets(STDIN));
 
-        switch ($operator) {
-            case '+' :
-                $obj = new CalculateAdd();
-                break;
-            case '-' :
-                $obj = new CalculateReduce();
-                break;
-            case '*' :
-                $obj = new CalculateRide();
-                break;
-            case '/':
-                $obj = new CalculateExcept();
-                break;
-            default :
-                $obj = new Calculate03();
-                break;
-        }
+        $obj = OperateFactory::createOperate($operator);
 
         fwrite(STDOUT, "请输入第二个参数：");
 
@@ -60,30 +44,54 @@ class CalculateView
         fwrite(STDOUT, "运算结果：$res");
     }
 }
+class OperateFactory
+{
+    public static function createOperate(string $operate)
+    {
+        switch ($operate) {
+            case '+' :
+                $obj = new CalculateAdd();
+                break;
+            case '-' :
+                $obj = new CalculateReduce();
+                break;
+            case '*' :
+                $obj = new CalculateRide();
+                break;
+            case '/':
+                $obj = new CalculateExcept();
+                break;
+            default :
+                $obj = null;
+                break;
+        }
+        return $obj;
+    }
+}
 $object = new CalculateView();
 $object->viewSet();
-class CalculateAdd extends Calculate03
+class CalculateAdd extends Calculate04
 {
     public function calculate()
     {
         return $this->firstParam + $this->nextParam;
     }
 }
-class CalculateReduce extends Calculate03
+class CalculateReduce extends Calculate04
 {
     public function calculate()
     {
         return $this->firstParam - $this->nextParam;
     }
 }
-class CalculateRide extends Calculate03
+class CalculateRide extends Calculate04
 {
     public function calculate()
     {
         return $this->firstParam * $this->nextParam;
     }
 }
-class CalculateExcept extends Calculate03
+class CalculateExcept extends Calculate04
 {
     public function calculate()
     {
