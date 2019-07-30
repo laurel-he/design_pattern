@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * 在不使用设计模式的情况下，实现一个根据单价和数量计算金额的算法
+ * Class Collect01
+ */
 class Collect01
 {
     private function collect($price, $num, $discount = 1) {
